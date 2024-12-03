@@ -1,7 +1,21 @@
 #loading-animate {
 	max-width: 100px;
+    margin: 10px auto;
 }
 
 #loading.hidden {
 	display: none;
+}
+
+#error-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    p {
+        margin-top: 10px;
+        padding: 0 30px;
+        font-size: 16px;
+        text-align: center;
+    }
 }
