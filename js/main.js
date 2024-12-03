@@ -2,22 +2,23 @@
 
   //variables
   const hotspots = document.querySelectorAll(".Hotspot");
+  const hotspotAnnot = document.querySelectorAll(".HotspotAnnotation")
 
   const materialTemplate = document.querySelector("#material-template");
   const materialList = document.querySelector("#material-list");
+  const errorCont = document.querySelector("#error-cont");
 
+  // Loader
+  const loading = document.querySelector("#loading-animate");
+
+  // Material
   //this is the api url https://swiftpixel.com/earbud/api/infoboxes"
-
-
-
   //this is the api url https://swiftpixel.com/earbud/api/materials"
 
-  
-
-  //functions
+  //Fnctions
   function loadInfoBoxes() {
 
-    //make AJAX call here
+    //AJAX Call
     fetch("https://swiftpixel.com/earbud/api/infoboxes")
     .then(response => response.json())
     .then(infoBoxes => {
@@ -31,15 +32,27 @@
         textElement.textContent = infoBox.description;
 
         // Image
-        // const thumbElement = document.createElement('img');
-        // thumbElement.src = ;
-  
+        const thumbElement = document.createElement('img');
+        thumbElement.src = `images/earbud${index + 1}.jpg`;
+        thumbElement.alt = infoBox.heading;
+        
+        selected.appendChild(thumbElement); 
         selected.appendChild(titleElement);
         selected.appendChild(textElement);
       });
+      
     })
-    .catch();
     // Error Message
+    .catch(error => {
+      console.log(error)
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = `Uh Oh! Something went wrong, it might be our server or some technical issues.
+      More Details can be seen here: ${error}`;
+
+      hotspotAnnot.forEach(annotation => {
+        annotation.appendChild(errorMessage.cloneNode(true));
+      });
+    })
   }
   loadInfoBoxes();
 
@@ -61,9 +74,18 @@
 
         materialList.appendChild(clone);
       })
+
+      loading.classList.toggle("hidden");
     })
-    .catch();
-    // Error Message
+
+    .catch(error => {
+      console.log(error)
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = `Uh Oh! Something went wrong, it might be our server or some technical issues.
+      More Details can be seen here: ${error}`;
+
+      errorCont.appendChild(errorMessage);
+    })
   }
   loadMaterialInfo();
 
